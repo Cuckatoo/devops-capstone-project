@@ -128,13 +128,12 @@ class TestAccountService(TestCase):
 
     # ADD YOUR TEST CASES HERE ...
 
-    #read an account
+    # read an account
 
     def test_read_an_account(self):
         """It should be able to read the account details"""
         account = self._create_accounts(1)[0]
-        resp = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json"
-        )
+        resp = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(data["name"], account.name)
@@ -144,7 +143,7 @@ class TestAccountService(TestCase):
         resp = self.client.get(f"{BASE_URL}/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
-    #Update accounts
+    # Update accounts
 
     def test_update_account(self):
         """It should Update an existing Account"""
@@ -159,12 +158,11 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         updated_account = resp.get_json()
         self.assertEqual(updated_account["name"], "Something Known")
-        
+
     def test_updateaccount_not_found(self):
         """It should not update an Account that is not found"""
         resp = self.client.get(f"{BASE_URL}/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-
 
     # delete account
 
@@ -172,9 +170,10 @@ class TestAccountService(TestCase):
         """It should Delete an Account"""
         account = self._create_accounts(1)[0]
         resp = self.client.delete(f"{BASE_URL}/{account.id}")
+
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
-    #list accounts
+    # list accounts
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
@@ -183,15 +182,14 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
-    
-    #error-handler
+    # error-handler
 
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
         resp = self.client.delete(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    #Flask-talisman check
+    # Flask-talisman check
 
     def test_security_headers(self):
         """It should return security headers"""
@@ -207,12 +205,12 @@ class TestAccountService(TestCase):
         for key, value in headers.items():
             self.assertEqual(response.headers.get(key), value)
 
-
-    #CORS-policies
+    # CORS-policies
 
     def test_cors_security(self):
         """It should return a CORS header"""
         response = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
         # Check for the CORS header
         self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
