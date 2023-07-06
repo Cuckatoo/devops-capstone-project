@@ -181,7 +181,7 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
-    
+
     # error-handler
 
     def test_method_not_allowed(self):
