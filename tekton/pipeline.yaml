@@ -36,6 +36,7 @@ spec:
         value: $(params.branch)
       runAfter:
         - init
+add-docker
 
     - name: lint
       workspaces:
@@ -67,3 +68,5 @@ spec:
 
 
       
+
+main
